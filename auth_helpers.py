@@ -40,6 +40,7 @@ def user_function(request, session, auth, use_usernames):
                 if session.profile_request:
                     record_id = session.profile_request[request.post_vars.id]
                 else:
+                    record_id = None
                     redirect(auth.settings.login_url)
 
                 request.post_vars.update(id=record_id)
@@ -287,11 +288,12 @@ def user_function(request, session, auth, use_usernames):
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
+                    auth_form = None
+
                     if e.message == '200 OK':
                         assert e.message == '200 OK'
                         assert e.status == 200
 
-                        auth_form = None
                     elif e.message == '303 SEE OTHER':
                         assert e.message == '303 SEE OTHER'
                         assert e.status == 303
