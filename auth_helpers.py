@@ -1,5 +1,6 @@
 
-from gluon.html import URL, redirect
+from gluon.html import URL
+from gluon import redirect
 
 try:
     react_loader_name = 'applications.{app_name}.modules.react_loader.react_loader'.format(app_name="welcome")
