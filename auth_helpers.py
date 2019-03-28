@@ -69,7 +69,7 @@ def user_function(request, session, auth, use_usernames):
 
                     return react_loader.dump_json(dict(
                         user=new_user,
-                        next=logout_url,
+                        next='/'.join(auth.settings.login_url.split('/')[:-1]) + '/logout',
                         errors=dict(),
                     ))
                 else:
