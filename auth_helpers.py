@@ -309,7 +309,7 @@ def user_function(request, session, auth, use_usernames):
                         next='{url_scheme}://{host}{next}'.format(
                             url_scheme=request.env.wsgi_url_scheme,
                             host=request.env.http_host,
-                            next=auth.settings['reset_password_next']
+                            next=auth.settings.reset_password_next
                         ),
                     ))
                 else:
@@ -339,7 +339,7 @@ def user_function(request, session, auth, use_usernames):
                         next='{url_scheme}://{host}{next}'.format(
                             url_scheme=request.env.wsgi_url_scheme,
                             host=request.env.http_host,
-                            next=auth.settings['reset_password_next']
+                            next=auth.settings.reset_password_next
                         ),
                     ))
                 else:
