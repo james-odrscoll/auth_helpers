@@ -1,16 +1,11 @@
 
-
-APP_NAME = "welcome"
-
-# import task logic
-react_loader_name = 'applications.{app_name}.modules.react_loader.react_loader'.format(app_name=APP_NAME)
+from gluon.html import URL, redirect
 
 try:
+    react_loader_name = 'applications.{app_name}.modules.react_loader.react_loader'.format(app_name="welcome")
     react_loader = __import__(react_loader_name, globals(), locals(), ['*'])
 except Exception, import_error:
     raise import_error
-
-from gluon.html import URL
 
 
 def user_function(request, auth):
