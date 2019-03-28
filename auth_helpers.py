@@ -50,7 +50,7 @@ def user_function(request, session, auth, use_usernames):
                     # auth.profile() does not update db only auth.user in session
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
-                    form = auth.profile()
+                    form = auth()
                     auth_form = react_loader.W2PUserReactForm(**{'form': form})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
@@ -81,7 +81,8 @@ def user_function(request, session, auth, use_usernames):
                         formname=auth_form.formname
                     ))
             else:
-                auth_form = react_loader.W2PUserReactForm(**{'form': auth.profile()})
+                form = auth()
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, })
 
                 record_id = auth_form.form.record_id
 
@@ -128,8 +129,8 @@ def user_function(request, session, auth, use_usernames):
                             errors=dict(),
                         ))
                     else:
-                        form = auth.login()
-                        auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                        form = auth()
+                        auth_form = react_loader.W2PUserReactForm(**{'form': form, })
                         if auth_form.errors.keys().__len__() == 0:
                             if use_usernames:
                                 auth_form.errors['username'] = 'Login Failed'
@@ -200,7 +201,7 @@ def user_function(request, session, auth, use_usernames):
                     # auth.profile() does not update db only auth.user in session
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
-                    form = auth.register()
+                    form = auth()
                     auth_form = react_loader.W2PUserReactForm(**{'form': form})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
@@ -232,7 +233,8 @@ def user_function(request, session, auth, use_usernames):
                         formname=auth_form.formname
                     ))
             else:
-                auth_form = react_loader.W2PUserReactForm(**{'form': auth.register()})
+                form = auth()
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, })
 
                 return react_loader.dump_json(dict(
                     errors=dict(),
@@ -247,7 +249,7 @@ def user_function(request, session, auth, use_usernames):
                     # auth.profile() does not update db only auth.user in session
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
-                    form = auth.retrieve_password()
+                    form = auth()
                     auth_form = react_loader.W2PUserReactForm(**{'form': form})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
@@ -268,7 +270,8 @@ def user_function(request, session, auth, use_usernames):
                         formname=auth_form.formname
                     ))
             else:
-                auth_form = react_loader.W2PUserReactForm(**{'form': auth.retrieve_password()})
+                form = auth()
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, })
 
                 return react_loader.dump_json(dict(
                     errors=dict(),
@@ -284,7 +287,7 @@ def user_function(request, session, auth, use_usernames):
                     # auth.profile() does not update db only auth.user in session
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
-                    form = auth.reset_password()
+                    form = auth()
                     auth_form = react_loader.W2PUserReactForm(**{'form': form})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
@@ -324,7 +327,7 @@ def user_function(request, session, auth, use_usernames):
                     # auth.profile() does not update db only auth.user in session
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
-                    form = auth.reset_password()
+                    form = auth()
                     auth_form = react_loader.W2PUserReactForm(**{'form': form})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
