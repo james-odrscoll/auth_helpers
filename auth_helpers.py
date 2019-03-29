@@ -355,13 +355,96 @@ def user_function(request, session, auth, use_usernames):
 
         _form = auth()
         auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+
         auth_form.requires_login = True
+
         return react_loader.dump_json(dict(
             errors=dict(),
             vars=dict(),
             formkey=auth_form.formkey,
             formname=auth_form.formname
         ))
+    elif request.args(0):
+        if request.args(0) == 'reset_password':
+            # do not copy this version
+            # different setup
+            if request.post_vars:
+                try:
+                    # auth.profile() does not update db only auth.user in session
+                    # similar problem ...
+                    # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
+                    form = auth()
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    # on successful form submission either with a login fail or otherwise, a redirect occurs
+                    # this Exception is actually a HTTP event
+                except Exception, e:
+                    auth_form = None
+
+                    if e.message == '200 OK':
+                        assert e.message == '200 OK'
+                        assert e.status == 200
+
+                    elif e.message == '303 SEE OTHER':
+                        assert e.message == '303 SEE OTHER'
+                        assert e.status == 303
+                        return react_loader.dump_json(dict(
+                            vars=dict(),
+                            errors=dict(),
+                        ))
+
+                if not auth_form:
+                    return react_loader.dump_json(dict(
+                        errors=dict(),
+                        next='{url_scheme}://{host}{next}'.format(
+                            url_scheme=request.env.wsgi_url_scheme,
+                            host=request.env.http_host,
+                            next=auth.settings.reset_password_next
+                        ),
+                    ))
+                else:
+                    return react_loader.dump_json(dict(
+                        errors=dict(auth_form.form.errors),
+                        vars=dict(),
+                        formkey=auth_form.formkey,
+                        formname=auth_form.formname
+                    ))
+            else:
+                try:
+                    # auth.profile() does not update db only auth.user in session
+                    # similar problem ...
+                    # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
+                    form = auth()
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    # on successful form submission either with a login fail or otherwise, a redirect occurs
+                    # this Exception is actually a HTTP event
+                except Exception, e:
+                    auth_form = None
+
+                    if e.message == '200 OK':
+                        assert e.message == '200 OK'
+                        assert e.status == 200
+                    elif e.message == '303 SEE OTHER':
+                        assert e.message == '303 SEE OTHER'
+                        assert e.status == 303
+                        raise e
+
+                if not auth_form:
+                    return react_loader.dump_json(dict(
+                        errors=dict(),
+                        next='{url_scheme}://{host}{next}'.format(
+                            url_scheme=request.env.wsgi_url_scheme,
+                            host=request.env.http_host,
+                            next=auth.settings.reset_password_next
+                        ),
+                    ))
+                else:
+                    auth_form.requires_login = True
+                    return dict(
+                        url=URL(request.application, 'default', 'user'),
+                        auth_form=auth_form,
+                        react_app_data=dict(
+                        )
+                    )
 
     _form = auth()
 
