@@ -445,6 +445,25 @@ def user_function(request, session, auth, use_usernames):
                         react_app_data=dict(
                         )
                     )
+        elif request.args(0) == 'login':
+            _form = auth()
+
+            auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+            auth_form.requires_login = False if auth.user else True
+            auth_form.formname = "login"
+
+            if request.vars._next:
+                auth_form.next = request.vars._next
+
+            if request.vars.service:
+                auth_form.next = request.vars.service
+
+            return dict(
+                url=URL(request.application, 'default', 'user'),
+                auth_form=auth_form,
+                react_app_data=dict(
+                )
+            )
 
     _form = auth()
 
