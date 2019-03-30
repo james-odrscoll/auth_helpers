@@ -11,8 +11,6 @@ except Exception, import_error:
 
 def user_function(request, session, auth, use_usernames):
 
-    print request.args, request.url, request.ajax, request.vars
-
     if 'cas' in request.args:
         if not request.ajax:
             if request.args == ['cas', 'login']:
