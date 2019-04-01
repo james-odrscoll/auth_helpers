@@ -211,18 +211,19 @@ def user_function(request, session, auth, use_usernames):
 
                 if not auth_form:
                     if auth.settings.registration_requires_verification:
-                        new_user = None
+                        return react_loader.dump_json(dict(
+                            errors=dict(),
+                        ))
                     else:
                         new_user = dict(**{
                             'first_name': auth.user.first_name,
                             'last_name': auth.user.last_name,
                             'email': auth.user.email,
                         })
-
-                    return react_loader.dump_json(dict(
-                        user=new_user,
-                        errors=dict(),
-                    ))
+                        return react_loader.dump_json(dict(
+                            user=new_user,
+                            errors=dict(),
+                        ))
                 else:
                     return react_loader.dump_json(dict(
                         errors=dict(auth_form.form.errors),
