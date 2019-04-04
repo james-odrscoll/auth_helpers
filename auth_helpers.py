@@ -482,3 +482,53 @@ def user_function(request, session, auth, use_usernames):
         react_app_data=dict(
         )
     )
+
+
+def auth_controller_helper(**kwargs):
+    unpack_keys = ('request', 'session', 'auth', 'is_this_cas_provider_app', 'use_cas_provider', 'react_loader')
+    request, session, auth, is_this_cas_provider_app, use_cas_provider, react_loader = [kwargs[k] for k in unpack_keys]
+
+    if use_cas_provider == "no":
+        _form = auth()
+        auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+    else:
+        if is_this_cas_provider_app:
+            try:
+                _form = auth()
+            except Exception, e:
+                raise e
+            auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+        else:
+            # using cas from another app
+            if not session.token:
+                if request.args.__len__() == 0:
+                    auth_form = react_loader.W2PUserReactForm()
+                    auth_form.formname = 'login'
+
+                    return auth_form
+                else:
+                    _form = auth()
+                    auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+            else:
+                auth_form = react_loader.W2PUserReactForm()
+                auth_form.vars = dict(**session.token)
+                auth_form.vars.pop('id')
+
+    if request.args(0):
+        if request.args(0) == 'login':
+            auth_form.requires_login = True
+        elif request.args(0) == 'cas':
+            auth_form.requires_login = True
+
+        if request.vars._next:
+            auth_form.next = request.vars._next
+
+        if request.vars.service:
+            auth_form.next = request.vars.service
+
+    if request.args(0):
+        if request.args(0) == 'reset_password':
+            auth_form.requires_login = True
+
+    return auth_form
+
