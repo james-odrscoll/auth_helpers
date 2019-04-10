@@ -17,6 +17,7 @@ def user_function(request, session, auth, use_usernames):
                 _form = auth()
                 auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
                 auth_form.requires_login = True
+                auth_form.formname = 'login'
 
                 if request.vars._next:
                     auth_form.next = request.vars._next
@@ -511,6 +512,7 @@ def auth_controller_helper(**kwargs):
                     auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
             else:
                 auth_form = react_loader.W2PUserReactForm()
+                auth_form.formname = 'login'
                 auth_form.vars = dict(**session.token)
                 auth_form.vars.pop('id')
 
@@ -519,6 +521,8 @@ def auth_controller_helper(**kwargs):
             auth_form.requires_login = True
         elif request.args(0) == 'cas':
             auth_form.requires_login = True
+
+        auth_form.formname = 'login'
 
         if request.vars._next:
             auth_form.next = request.vars._next
@@ -529,6 +533,7 @@ def auth_controller_helper(**kwargs):
     if request.args(0):
         if request.args(0) == 'reset_password':
             auth_form.requires_login = True
+            auth_form.formname = 'reset_password'
 
     return auth_form
 
