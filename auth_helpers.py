@@ -91,6 +91,8 @@ def user_function(request, session, auth, use_usernames):
                 import string
                 import random
 
+                # create a random string
+                # https://stackoverflow.com/questions/2257441/random-string-generation-with-upper-case-letters-and-digits
                 session_key = ''.join(
                     random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(16))
 
