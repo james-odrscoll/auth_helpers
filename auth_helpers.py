@@ -9,13 +9,13 @@ except Exception, import_error:
     raise import_error
 
 
-def user_function(request, session, auth, use_usernames):
+def user_function(request, session, auth, use_usernames, recaptcha_site_key):
 
     if 'cas' in request.args:
         if not request.ajax:
             if request.args == ['cas', 'login']:
                 _form = auth()
-                auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+                auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
                 auth_form.requires_login = True
                 auth_form.formname = 'login'
 
@@ -50,7 +50,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -81,7 +81,7 @@ def user_function(request, session, auth, use_usernames):
                     ))
             else:
                 form = auth()
-                auth_form = react_loader.W2PUserReactForm(**{'form': form, })
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
 
                 record_id = auth_form.form.record_id
 
@@ -110,7 +110,7 @@ def user_function(request, session, auth, use_usernames):
             if request.post_vars:
                 try:
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form,  'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -131,7 +131,7 @@ def user_function(request, session, auth, use_usernames):
                         ))
                     else:
                         form = auth()
-                        auth_form = react_loader.W2PUserReactForm(**{'form': form, })
+                        auth_form = react_loader.W2PUserReactForm(**{'form': form,  'recaptcha_site_key': recaptcha_site_key})
                         if auth_form.errors.keys().__len__() == 0:
                             if use_usernames:
                                 auth_form.errors['username'] = 'Login Failed'
@@ -152,7 +152,7 @@ def user_function(request, session, auth, use_usernames):
                         formname=auth_form.formname
                     ))
             else:
-                auth_form = react_loader.W2PUserReactForm(**{'form': auth()})
+                auth_form = react_loader.W2PUserReactForm(**{'form': auth(), 'recaptcha_site_key': recaptcha_site_key})
 
                 return react_loader.dump_json(dict(
                     errors=dict(),
@@ -167,7 +167,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -189,7 +189,7 @@ def user_function(request, session, auth, use_usernames):
                     ))
             else:
                 form = auth()
-                auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                 return react_loader.dump_json(dict(
                     errors=dict(),
                     formkey=auth_form.formkey,
@@ -203,7 +203,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -236,7 +236,7 @@ def user_function(request, session, auth, use_usernames):
                     ))
             else:
                 form = auth()
-                auth_form = react_loader.W2PUserReactForm(**{'form': form, })
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
 
                 return react_loader.dump_json(dict(
                     errors=dict(),
@@ -252,7 +252,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -273,7 +273,7 @@ def user_function(request, session, auth, use_usernames):
                     ))
             else:
                 form = auth()
-                auth_form = react_loader.W2PUserReactForm(**{'form': form, })
+                auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
 
                 return react_loader.dump_json(dict(
                     errors=dict(),
@@ -290,7 +290,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -330,7 +330,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -356,7 +356,7 @@ def user_function(request, session, auth, use_usernames):
                     ))
 
         _form = auth()
-        auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+        auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
 
         auth_form.requires_login = True
 
@@ -376,7 +376,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -416,7 +416,7 @@ def user_function(request, session, auth, use_usernames):
                     # similar problem ...
                     # https://stackoverflow.com/questions/13059557/web2py-auth-user-object-returns-obsolete-data
                     form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': form})
+                    auth_form = react_loader.W2PUserReactForm(**{'form': form, 'recaptcha_site_key': recaptcha_site_key})
                     # on successful form submission either with a login fail or otherwise, a redirect occurs
                     # this Exception is actually a HTTP event
                 except Exception, e:
@@ -450,7 +450,7 @@ def user_function(request, session, auth, use_usernames):
         elif request.args(0) == 'login':
             _form = auth()
 
-            auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+            auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
             auth_form.requires_login = False if auth.user else True
             auth_form.formname = "login"
 
@@ -469,7 +469,7 @@ def user_function(request, session, auth, use_usernames):
 
     _form = auth()
 
-    auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+    auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
     auth_form.requires_login = True
     auth_form.formname = "login"
 
@@ -488,32 +488,32 @@ def user_function(request, session, auth, use_usernames):
 
 
 def auth_controller_helper(**kwargs):
-    unpack_keys = ('request', 'session', 'auth', 'is_this_cas_provider_app', 'use_cas_provider', 'react_loader')
-    request, session, auth, is_this_cas_provider_app, use_cas_provider, react_loader = [kwargs[k] for k in unpack_keys]
+    unpack_keys = ('request', 'session', 'auth', 'is_this_cas_provider_app', 'use_cas_provider', 'react_loader', 'recaptcha_site_key')
+    request, session, auth, is_this_cas_provider_app, use_cas_provider, react_loader, recaptcha_site_key = [kwargs[k] for k in unpack_keys]
 
     if use_cas_provider == "no":
         _form = auth()
-        auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+        auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
     else:
         if is_this_cas_provider_app:
             try:
                 _form = auth()
             except Exception, e:
                 raise e
-            auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+            auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
         else:
             # using cas from another app
             if not session.token:
                 if request.args.__len__() == 0:
-                    auth_form = react_loader.W2PUserReactForm()
+                    auth_form = react_loader.W2PUserReactForm(**{'recaptcha_site_key': recaptcha_site_key})
                     auth_form.formname = 'login'
 
                     return auth_form
                 else:
                     _form = auth()
-                    auth_form = react_loader.W2PUserReactForm(**{'form': _form, })
+                    auth_form = react_loader.W2PUserReactForm(**{'form': _form, 'recaptcha_site_key': recaptcha_site_key})
             else:
-                auth_form = react_loader.W2PUserReactForm()
+                auth_form = react_loader.W2PUserReactForm(**{'recaptcha_site_key': recaptcha_site_key})
                 auth_form.formname = 'login'
                 auth_form.vars = dict(**session.token)
                 auth_form.vars.pop('id')
